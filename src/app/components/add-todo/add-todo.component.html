@@ -1,0 +1,40 @@
+<ng-template #content let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title" id="modal-basic-title">Add to do</h4>
+	  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+	</div>
+	<div class="modal-body">
+	  <form>
+		<div class="mb-3">
+		  <label for="title-todo">Title</label>
+		  <input id="title-todo" type="text" class="form-control" #titleTodo>
+  
+		  <br>
+		  <label for="dateOfBirth">Date (optional)</label>
+		  <div class="input-group">
+			<input
+			  id="dateOfBirth"
+			  class="form-control"
+			  placeholder="yyyy-mm-dd"
+			  name="dp"
+			  ngbDatepicker
+			  #dp="ngbDatepicker"
+			  #dateOfBirth
+			/>
+			<button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
+				
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+				<path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+			  </svg>
+			
+			</button>
+		  </div>
+		</div>
+	  </form>
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-secondary" (click)="onSave(titleTodo, dateOfBirth)">Save</button>
+	</div>
+  </ng-template>
+  
+  <button (click)="open(content)">Add to-do</button>

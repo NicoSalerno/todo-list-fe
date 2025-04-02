@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="post-it">
+      <h1>To do List</h1>
+  
+      <label>
+        <input type="checkbox" [checked]="showAll$ | async" (change)="seeAll()"> Show all
+      </label>
+  
+      <br>
+  
+      <app-add-todo (save)="onAdd($event)"></app-add-todo>
+  
+      <br> 
+  
+      <div class="todo-list" *ngIf="(todos$ | async) as todoItems">
+        <app-todo-card 
+          *ngFor="let toDo of todoItems"
+          [toDo]="toDo"
+          (onCheck)="onCheck(toDo)"
+          (unCheck)="unCheck(toDo)">
+        </app-todo-card>
+      </div>
+    </div>
+  </div>
+  

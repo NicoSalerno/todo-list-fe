@@ -1,20 +1,15 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ToDo } from '../services/todo-list.entity';
-import { TodoService } from '../services/todo.service';
-import { BehaviorSubject, combineLatest, startWith, Subject, switchMap } from 'rxjs';
-
-export type ToDoSeeEvent = {
-  completed: boolean;
-}
+import { ToDo } from '../../../services/todo-list.entity'
+import { TodoService } from '../../../services/todo.service';
+import { BehaviorSubject, catchError, combineLatest, map, startWith, Subject, switchMap } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
+  selector: 'app-todo',
   standalone: false,
-  styleUrl: './app.component.css'
+  templateUrl: './todo.component.html',
+  styleUrl: './todo.component.css'
 })
-
-export class AppComponent {
+export class TodoComponent {
 
   protected tdSrv = inject(TodoService);
 
@@ -26,11 +21,19 @@ export class AppComponent {
     this.refresh$.pipe(startWith(undefined)), 
     this.showAll$
   ]).pipe(
-    switchMap(([_, showCompleted]) => this.tdSrv.list(showCompleted))
+    switchMap(([_, showCompleted]) => {
+      return this.tdSrv.list(showCompleted).pipe(
+        catchError(err => {
+          return []
+        }
+      ))
+    }),
+    map(items => items.reverse())
   );
 
   seeAll(){
-    this.showAll$.next(!this.showAll$.getValue());
+    this.showAll$.next(!this.showAll$.value);
+    console.log('check on seAll')
   }
 
   onCheck(toDo: ToDo){
@@ -50,6 +53,4 @@ export class AppComponent {
       this.refresh$.next(); // Aggiorna la lista
     });
   }
-  
 }
-

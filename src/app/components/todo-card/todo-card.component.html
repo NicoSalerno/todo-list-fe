@@ -1,0 +1,16 @@
+<div [class.completed]="toDo.completed" 
+     [class.expired]="!toDo.completed && toDo.expired"
+     [class.not-completed]="!toDo.completed && !toDo.expired"
+     class="todo-item">
+  
+  <span class="todo-header">
+    <input type="checkbox" [checked]="toDo.completed" (change)="onToggleCheck()">
+    <p class="todo-title">{{ toDo.title }}</p>
+  </span>
+
+  <p>Date: {{ (toDo.dueDate | date: 'dd/MM/yyyy') || "none" }}</p>
+  <p>Completed: {{ toDo.completed }}</p>
+  <p>Expired: {{ toDo.expired }}</p>
+
+  <hr>
+</div>
